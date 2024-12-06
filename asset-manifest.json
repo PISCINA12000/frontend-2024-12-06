@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/frontend_2024_12_06.git/static/css/main.d221dc40.css",
-    "main.js": "/frontend_2024_12_06.git/static/js/main.76b0ba41.js",
-    "static/media/pagina404.png": "/frontend_2024_12_06.git/static/media/pagina404.4bf0805d8d55a31c5142.png",
-    "index.html": "/frontend_2024_12_06.git/index.html",
-    "main.d221dc40.css.map": "/frontend_2024_12_06.git/static/css/main.d221dc40.css.map",
-    "main.76b0ba41.js.map": "/frontend_2024_12_06.git/static/js/main.76b0ba41.js.map"
+    "main.css": "/frontend_2024_12_06/static/css/main.d221dc40.css",
+    "main.js": "/frontend_2024_12_06/static/js/main.d2d0a8ae.js",
+    "static/media/pagina404.png": "/frontend_2024_12_06/static/media/pagina404.4bf0805d8d55a31c5142.png",
+    "index.html": "/frontend_2024_12_06/index.html",
+    "main.d221dc40.css.map": "/frontend_2024_12_06/static/css/main.d221dc40.css.map",
+    "main.d2d0a8ae.js.map": "/frontend_2024_12_06/static/js/main.d2d0a8ae.js.map"
   },
   "entrypoints": [
     "static/css/main.d221dc40.css",
-    "static/js/main.76b0ba41.js"
+    "static/js/main.d2d0a8ae.js"
   ]
 }
