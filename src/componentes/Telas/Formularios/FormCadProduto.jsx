@@ -1,85 +1,82 @@
-import { Button, Spinner, Col, Form, InputGroup, Row} from 'react-bootstrap';
-import { consultarCategoria } from '../../../servicos/servicoCategoria';
-import { consultarFornecedor } from '../../../servicos/servicoFornecedor';
+import { Button, Spinner, Col, Form, InputGroup, Row } from 'react-bootstrap'
+import { consultarCategoria } from '../../../servicos/servicoCategoria'
+import { consultarFornecedor } from '../../../servicos/servicoFornecedor'
 
-import toast, {Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast'
 // redux
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { editarProdutoReducer, inserirProdutoReducer, buscarProdutos } from '../../../redux/produtoReducer';
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
+import { editarProdutoReducer, inserirProdutoReducer, buscarProdutos } from '../../../redux/produtoReducer'
 
 
 export default function FormCadProdutos(props) {
-    const [produto, setProduto] = useState(props.produtoSelecionado);
-    const [formValidado, setFormValidado] = useState(false);
-    const [categorias, setCategorias] = useState([]);
-    const [temCategorias, setTemCategorias] = useState(false);
-    const [fornecedor, setFornecedor] = useState([]);
-    const [temFornecedor, setTemFornecedor] = useState(false);
-    const despachante = useDispatch();
+    const [produto, setProduto] = useState(props.produtoSelecionado)
+    const [formValidado, setFormValidado] = useState(false)
+    const [categorias, setCategorias] = useState([])
+    const [temCategorias, setTemCategorias] = useState(false)
+    const [fornecedor, setFornecedor] = useState([])
+    const [temFornecedor, setTemFornecedor] = useState(false)
+    const despachante = useDispatch()
 
-    useEffect(()=>{
-        despachante(buscarProdutos());
-    },[despachante]);
+    useEffect(() => {
+        despachante(buscarProdutos())
+    }, [despachante])
 
-    useEffect(()=>{
-        consultarCategoria().then((resultado)=>{
-            if (Array.isArray(resultado)){
-                setCategorias(resultado);
-                setTemCategorias(true);
-                toast.success("Categorias Carregadas com Sucesso!");
+    useEffect(() => {
+        consultarCategoria().then((resultado) => {
+            if (Array.isArray(resultado)) {
+                setCategorias(resultado)
+                setTemCategorias(true)
+                toast.success("Categorias Carregadas com Sucesso!")
             }
-            else{
-                toast.error("Não foi possível carregar as categorias");
+            else {
+                toast.error("Não foi possível carregar as categorias")
             }
-        }).catch((erro)=>{
-            setTemCategorias(false);
-            toast.error("Não foi possível carregar as categorias");
-        });
-        
-    },[]); //didMount
-    function selecionarCategoria(evento){
-        setProduto({...produto, categoria:{codigo:evento.currentTarget.value}})
+        }).catch((erro) => {
+            setTemCategorias(false)
+            toast.error("Não foi possível carregar as categorias")
+        })
 
+    }, []) //didMount
+    function selecionarCategoria(evento) {
+        setProduto({ ...produto, categoria: { codigo: evento.currentTarget.value } })
     }
 
-    useEffect(()=>{
-        consultarFornecedor().then((resultado)=>{
-            if (Array.isArray(resultado)){
-                setFornecedor(resultado);
-                setTemFornecedor(true);
-                toast.success("Fornecedores Carregados com Sucesso!");
+    useEffect(() => {
+        consultarFornecedor().then((resultado) => {
+            if (Array.isArray(resultado)) {
+                setFornecedor(resultado)
+                setTemFornecedor(true)
+                toast.success("Fornecedores Carregados com Sucesso!")
             }
-            else{
-                toast.error("Não foi possível carregar os fornecedores");
+            else {
+                toast.error("Não foi possível carregar os fornecedores")
             }
-        }).catch((erro)=>{
-            setTemFornecedor(false);
-            toast.error("Não foi possível carregar os fornecedores");
-        });
-        
-    },[]); //didMount
-    function selecionarFornecedor(evento){
-        setProduto({...produto, fornecedor:{codigo:evento.currentTarget.value}})
+        }).catch((erro) => {
+            setTemFornecedor(false)
+            toast.error("Não foi possível carregar os fornecedores")
+        })
+    }, []) //didMount
+    function selecionarFornecedor(evento) {
+        setProduto({ ...produto, fornecedor: { codigo: evento.currentTarget.value } })
 
     }
     function manipularSubmissao(evento) {
-        const form = evento.currentTarget;
+        const form = evento.currentTarget
         if (form.checkValidity()) {
 
             if (!props.modoEdicao) {
                 //cadastrar o produto
-                despachante(inserirProdutoReducer(produto));
+                despachante(inserirProdutoReducer(produto))
                 toast.success("Produto Inserido!")
             }
             else {
-
-                despachante(editarProdutoReducer(produto));
-                props.setModoEdicao(false);
+                despachante(editarProdutoReducer(produto))
+                props.setModoEdicao(false)
                 toast.success("Produto Alterado!")
             }
-            props.setModoEdicao(false);
-                props.setProdutoSelecionado({
+            props.setModoEdicao(false)
+            props.setProdutoSelecionado({
                 codigo: 0,
                 descricao: "",
                 precoCusto: 0,
@@ -87,23 +84,23 @@ export default function FormCadProdutos(props) {
                 qtdEstoque: 0,
                 urlImagem: "",
                 dataValidade: "",
-                categoria:{},
-                fornecedor:{}
-                });
-                props.setExibirTabela(true);
+                categoria: {},
+                fornecedor: {}
+            })
+            props.setExibirTabela(true)
         }
         else {
-            setFormValidado(true);
+            setFormValidado(true)
         }
-        evento.preventDefault();
-        evento.stopPropagation();
+        evento.preventDefault()
+        evento.stopPropagation()
 
     }
 
     function manipularMudanca(evento) {
-        const elemento = evento.target.name;
-        const valor = evento.target.value;
-        setProduto({ ...produto, [elemento]: valor });
+        const elemento = evento.target.name
+        const valor = evento.target.value
+        setProduto({ ...produto, [elemento]: valor })
     }
 
     return (
@@ -143,7 +140,7 @@ export default function FormCadProdutos(props) {
                     <InputGroup hasValidation>
                         <InputGroup.Text id="precoCusto">R$</InputGroup.Text>
                         <Form.Control
-                            type="text"
+                            type="number"
                             id="precoCusto"
                             name="precoCusto"
                             aria-describedby="precoCusto"
@@ -161,7 +158,7 @@ export default function FormCadProdutos(props) {
                     <InputGroup hasValidation>
                         <InputGroup.Text id="precoVenda">R$</InputGroup.Text>
                         <Form.Control
-                            type="text"
+                            type="number"
                             id="precoVenda"
                             name="precoVenda"
                             aria-describedby="precoVenda"
@@ -179,7 +176,7 @@ export default function FormCadProdutos(props) {
                     <InputGroup hasValidation>
                         <InputGroup.Text id="qtdEstoque">+</InputGroup.Text>
                         <Form.Control
-                            type="text"
+                            type="number"
                             id="qtdEstoque"
                             name="qtdEstoque"
                             aria-describedby="qtdEstoque"
@@ -223,41 +220,40 @@ export default function FormCadProdutos(props) {
                 <Form.Group as={Col} md={7}>
                     <Form.Label>Categoria:</Form.Label>
                     <Form.Select id='categoria' name='categoria' onChange={selecionarCategoria}>
-                        {// criar em tempo de execução as categorias existentes no banco de dados
-                            categorias.map((categoria) =>{
-                                return <option value={categoria.codigo}>
-                                            {categoria.descricao}
-                                       </option>
-                            })
-                        }
-                        
+                        <option value="">Selecione uma categoria</option>
+                        {categorias.map((categoria) => (
+                            <option key={categoria.codigo} value={categoria.codigo}>
+                                {categoria.descricao}
+                            </option>
+                        ))}
                     </Form.Select>
+
                 </Form.Group>
                 <Form.Group as={Col} md={1}>
                     {
-                      !temCategorias ? <Spinner className='mt-4' animation="border" variant="success" />
-                      : ""
+                        !temCategorias ? <Spinner className='mt-4' animation="border" variant="success" />
+                            : ""
                     }
                 </Form.Group>
             </Row>
             <Row className="mb-4">
-            <Form.Group as={Col} md={7}>
+                <Form.Group as={Col} md={7}>
                     <Form.Label>Fornecedor:</Form.Label>
                     <Form.Select id='fornecedor' name='fornecedor' onChange={selecionarFornecedor}>
-                        {
-                            fornecedor.map((fornecedor) =>{
-                                return <option value={fornecedor.codigo}>
-                                            {fornecedor.nome}
-                                       </option>
-                            })
-                        }
-                        
+                        <option value="">Selecione um fornecedor</option>
+                        {fornecedor.map((fornecedor) => (
+                            <option key={fornecedor.codigo} value={fornecedor.codigo}>
+                                {fornecedor.nome}
+                            </option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group as={Col} md={1}>
                     {
-                      !temFornecedor ? <Spinner className='mt-4' animation="border" variant="success" />
-                      : ""
+                        !temFornecedor ?
+                            <Spinner className='mt-4' animation="border" variant="success" />
+                            :
+                            ""
                     }
                 </Form.Group>
             </Row>
@@ -275,15 +271,14 @@ export default function FormCadProdutos(props) {
                             qtdEstoque: 0,
                             urlImagem: "",
                             dataValidade: "",
-                            categoria:{},
-                            fornecedor:{}
-                            });
-                        props.setExibirTabela(true);
+                            categoria: {},
+                            fornecedor: {}
+                        })
+                        props.setExibirTabela(true)
                     }}>Voltar</Button>
                 </Col>
             </Row>
-            <Toaster position="top-right"/>
+            <Toaster position="top-right" />
         </Form>
-        
-    );
+    )
 }

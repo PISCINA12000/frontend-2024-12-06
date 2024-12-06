@@ -1,5 +1,4 @@
-const urlBase = 'https://bcc-backend-lp-2-three.vercel.app/cliente';
-//const urlBase = 'https://localhost:3000/produtos';
+const urlBase = 'https://backendfinallp2.vercel.app/cliente'
 
 export async function gravarCliente(cliente){
     const resposta = await fetch(urlBase,{

@@ -1,13 +1,13 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
-import { useContext } from "react";
-import { ContextoUsuario } from '../../App';
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import { Link } from 'react-router-dom'
+import { useContext } from "react"
+import { ContextoUsuario } from '../../App'
 
 export default function Menu(props) {
-    const { usuario, setUsuario } = useContext(ContextoUsuario);
+    const { usuario, setUsuario } = useContext(ContextoUsuario)
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -38,18 +38,18 @@ export default function Menu(props) {
                                 setUsuario({
                                     "usuario": "",
                                     "logado": false
-                                });
+                                })
                             }}
                         >
                             Sair
                         </Nav.Link>
                     </Nav>
                     <Nav className="ms-auto">
-                        <Nav.Link>Usuário Logado: {usuario.usuario}</Nav.Link>
+                        <Nav.Link>Usuário Logado: {usuario.nome}</Nav.Link>
                         <Nav.Link>Privilégio: {usuario.previlegio}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-    );
+    )
 }
