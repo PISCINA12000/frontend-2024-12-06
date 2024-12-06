@@ -3,7 +3,6 @@ import { useContext, useRef, useEffect, useState } from "react"
 import { ContextoUsuario } from "../../App"
 import { consultarUsuario } from "../../servicos/servicoUsuario"
 import toast, {Toaster} from 'react-hot-toast'
-import { se } from "date-fns/locale"
 
 export default function TelaLogin(){
     const nomeUsuario = useRef()
