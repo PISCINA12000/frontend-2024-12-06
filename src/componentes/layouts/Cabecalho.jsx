@@ -1,4 +1,4 @@
-import { Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap"
 export default function Cabecalho(props){
     
     //método render
@@ -9,5 +9,5 @@ export default function Cabecalho(props){
             </h1>
         </Alert>
 
-    );
+    )
 }
