@@ -19,7 +19,8 @@ export default function TabelaUsuario(props) {
         despachante(buscarUsuarios())
     }, [despachante])
     function verificarPrevilegio() {
-        if (usuario.previlegio.toLowerCase() === 'basico') {
+        console.log(usuario)
+        if (usuario.previlegio.toLowerCase() === 'básico') {
             toast.error("Permissão Negada")
             return false
         }
@@ -30,7 +31,6 @@ export default function TabelaUsuario(props) {
         props.setModoEdicao(true)
         props.setUsuarioSelecionado(usuario)
         props.setExibirTabela(false)
-
     }
 
     function excluirUsuarioSelecionado(usuario) {

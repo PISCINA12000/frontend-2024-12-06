@@ -1,13 +1,15 @@
 import { Button, Spinner, Col, Form, InputGroup, Row } from 'react-bootstrap'
 import toast, { Toaster } from 'react-hot-toast'
-// redux
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux"
-import { editarUsuarioReducer, inserirUsuarioReducer, buscarUsuarios } from '../../../redux/usuarioReducer'
+import { useDispatch } from "react-redux"
+import { editarUsuarioReducer, inserirUsuarioReducer, buscarUsuarios } from '../../../redux/usuarioReducer.js'
+import { consultarPrivilegio } from '../../../servicos/servicoPrivilegio.js'
 
 export default function FormCadUsuario(props) {
     const [usuario, setUsuario] = useState(props.usuarioSelecionado)
     const [formValidado, setFormValidado] = useState(false)
+    const [privilegios, setPrivilegios] = useState([])
+    const [temPrivilegios, setTemPrivilegios] = useState(false)
 
     const despachante = useDispatch()
 
@@ -15,30 +17,47 @@ export default function FormCadUsuario(props) {
         despachante(buscarUsuarios())
     }, [despachante])
 
+    useEffect(() => {
+        consultarPrivilegio()
+            .then((resultado) => {
+                if (Array.isArray(resultado)) {
+                    setPrivilegios(resultado)
+                    setTemPrivilegios(true)
+                    toast.success("Privilégios carregados com sucesso!")
+                } else {
+                    toast.error("Não foi possível carregar os privilégios.")
+                }
+            })
+            .catch(() => {
+                setTemPrivilegios(false)
+                toast.error("Erro ao carregar os privilégios.")
+            })
+    }, [])
+
+    function selecionarPrivilegio(evento) {
+        setUsuario({ ...usuario, privilegio: { codigo: evento.currentTarget.value } })
+    }
+
     function manipularSubmissao(evento) {
         const form = evento.currentTarget
         if (form.checkValidity()) {
-
             if (!props.modoEdicao) {
-                //cadastrar o produto
                 despachante(inserirUsuarioReducer(usuario))
-                toast.success("Usuario Inserido!")
-            }
-            else {
+                toast.success("Usuário inserido com sucesso!")
+            } else {
                 despachante(editarUsuarioReducer(usuario))
                 props.setModoEdicao(false)
-                toast.success("Usuario Alterado!")
+                toast.success("Usuário alterado com sucesso!")
             }
             props.setModoEdicao(false)
             props.setUsuarioSelecionado({
                 codigo: 0,
                 nome: "",
                 senha: "",
-                previlegio: {}
+                privilegio: {}
             })
             props.setExibirTabela(true)
-        }
-        else {
+        } else {
             setFormValidado(true)
         }
         evento.preventDefault()
@@ -58,14 +77,14 @@ export default function FormCadUsuario(props) {
                     <Form.Label>Código:</Form.Label>
                     <Form.Control
                         required
-                        type = "text"
-                        id = "codigo"
-                        name = "codigo"
-                        value = {usuario.codigo}
+                        type="text"
+                        id="codigo"
+                        name="codigo"
+                        value={usuario.codigo}
                         disabled
-                        onChange = {manipularMudanca}
+                        onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type='invalid'>Por favor, informe o código!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o código!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -73,103 +92,91 @@ export default function FormCadUsuario(props) {
                     <Form.Label>Nome:</Form.Label>
                     <Form.Control
                         required
-                        type = "text"
-                        id = "nome"
-                        name = "nome"
-                        value = {usuario.nome}
-                        onChange = {manipularMudanca}
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        value={usuario.nome}
+                        onChange={manipularMudanca}
                     />
                     <Form.Control.Feedback type="invalid">Por favor, informe o nome!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
-                <Form.Group as={Col} md="4">
+                <Form.Group as={Col} md="12">
                     <Form.Label>Endereco:</Form.Label>
                     <Form.Control
                         required
-                        type = "text"
-                        id = "endereco"
-                        name = "endereco"
-                        value = {usuario.endereco}
-                        disabled
-                        onChange = {manipularMudanca}
+                        type="text"
+                        id="endereco"
+                        name="endereco"
+                        value={usuario.endereco}
+                        onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type='invalid'>Por favor, informe o endereço!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o endereco!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
-                <Form.Group as={Col} md="4">
+                <Form.Group as={Col} md="12">
                     <Form.Label>Telefone:</Form.Label>
                     <Form.Control
                         required
-                        type = "text"
-                        id = "telefone"
-                        name = "telefone"
-                        value = {usuario.telefone}
-                        disabled
-                        onChange = {manipularMudanca}
+                        type="text"
+                        id="telefone"
+                        name="telefone"
+                        value={usuario.telefone}
+                        onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type='invalid'>Por favor, informe o telefone!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o telefone!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
-                <Form.Group as={Col} md="4">
+                <Form.Group as={Col} md="12">
                     <Form.Label>Senha:</Form.Label>
                     <InputGroup hasValidation>
                         <Form.Control
-                            type = "password"
-                            id = "senha"
-                            name = "senha"
-                            aria-describedby = "senha"
-                            value = {usuario.senha}
-                            onChange = {manipularMudanca}
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={usuario.senha}
+                            onChange={manipularMudanca}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor, informe a senha!
-                        </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Privilegio:</Form.Label>
-                    <InputGroup hasValidation>
-                        <Form.Control
-                            type = "text"
-                            id = "previlegio"
-                            name = "previlegio"
-                            aria-describedby = "previlegio"
-                            value = {usuario.privilegio.descricao}
-                            onChange = {manipularMudanca}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Por favor, informe o privilegio!
-                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Por favor, informe a senha!</Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
             </Row>
-            <Row className='mt-2 mb-2'>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="7">
+                    <Form.Label>Privilégio:</Form.Label>
+                    <Form.Select id="privilegio" name="privilegio" onChange={selecionarPrivilegio}>
+                        <option value="">Selecione um privilégio</option>
+                        {privilegios.map((privilegio) => (
+                            <option key={privilegio.codigo} value={privilegio.codigo}>
+                                {privilegio.descricao}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group as={Col} md="1">
+                    {
+                        !temPrivilegios ? <Spinner className="mt-4" animation="border" variant="success" /> : ""
+                    }
+                </Form.Group>
+            </Row>
+            <Row className="mt-2 mb-2">
                 <Col md={1}>
-                    <Button type="submit">
-                        {
-                            props.modoEdicao ?
-                                "Alterar" :
-                                "Confirmar"
-                        }
-                    </Button>
+                    <Button type="submit">{props.modoEdicao ? "Alterar" : "Confirmar"}</Button>
                 </Col>
                 <Col md={{ offset: 1 }}>
-                    <Button
-                        onClick={() => {
-                            props.setUsuarioSelecionado({
-                                codigo: 0,
-                                nome: "",
-                                senha: "",
-                                previlegio: {}
-                            })
-                            props.setExibirTabela(true)
-                        }}>Voltar
-                    </Button>
+                    <Button onClick={() => {
+                        props.setUsuarioSelecionado({
+                            codigo: 0,
+                            nome: "",
+                            senha: "",
+                            privilegio: {}
+                        })
+                        props.setExibirTabela(true)
+                    }}>Voltar</Button>
                 </Col>
             </Row>
             <Toaster position="top-right" />

@@ -10,6 +10,7 @@ import TelaLogin from "./componentes/Telas/TelaLogin"
 import { useState, createContext } from 'react'
 import store from './redux/store'
 import { Provider } from "react-redux"
+import TelaCadastroPrivilegio from "./componentes/Telas/TelaCadastroPrivilegio"
 
 export const ContextoUsuario = createContext()
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/fornecedor" element={<TelaCadastroFornecedor />} />
                 <Route path="/usuario" element={<TelaCadastroUsuario />} />
                 <Route path="/cliente" element={<TelaCadastroCliente />} />
+                <Route path="/privilegio" element={<TelaCadastroPrivilegio />} />
                 <Route path="/" element={<TelaMenu />} />
                 <Route path="*" element={<Tela404 />} />
               </Routes>

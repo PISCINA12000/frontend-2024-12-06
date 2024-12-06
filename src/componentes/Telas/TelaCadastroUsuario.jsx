@@ -3,6 +3,7 @@ import FormCadUsuario from "./Formularios/FormCadUsuario"
 import Pagina from "../layouts/Pagina"
 import { useState } from "react"
 import TabelaUsuario from "./Tabelas/TabelaUsuario"
+
 export default function TelaCadastroUsuario(props) {
     const [exibirTabela, setExibirTabela] = useState(true)
     const [modoEdicao, setModoEdicao] = useState(false)
@@ -26,7 +27,8 @@ export default function TelaCadastroUsuario(props) {
                         <TabelaUsuario
                             setExibirTabela = {setExibirTabela}
                             setModoEdicao = {setModoEdicao}
-                            setUsuarioSelecionado = {setUsuarioSelecionado} /> :
+                            setUsuarioSelecionado = {setUsuarioSelecionado}
+                        /> :
                         <FormCadUsuario
                             setExibirTabela = {setExibirTabela}
                             usuarioSelecionado = {usuarioSelecionado}

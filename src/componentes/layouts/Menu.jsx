@@ -22,6 +22,7 @@ export default function Menu(props) {
                             <NavDropdown.Item as={Link} to="/produto">Produtos</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/categoria">Categorias</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/usuario">Usuarios</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/privilegio">Privilegios</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Operações" id="basic-nav-dropdown">
                             <NavDropdown.Item>Compra</NavDropdown.Item>

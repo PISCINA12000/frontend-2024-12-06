@@ -227,7 +227,6 @@ export default function FormCadProdutos(props) {
                             </option>
                         ))}
                     </Form.Select>
-
                 </Form.Group>
                 <Form.Group as={Col} md={1}>
                     {

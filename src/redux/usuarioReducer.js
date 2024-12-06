@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { alterarUsuario, consultarUsuario, excluirUsuario, gravarUsuario} from "../servicos/servicoUsuario";
+import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import { alterarUsuario, consultarUsuario, excluirUsuario, gravarUsuario} from "../servicos/servicoUsuario"
 
-import ESTADO from "./estados";
-import { act } from "react";
+import ESTADO from "./estados"
+import { act } from "react"
 
 export const buscarUsuarios =  createAsyncThunk('buscarUsuarios', async() =>{
     //lista de produtos
-    const resultado = await consultarUsuario();
+    const resultado = await consultarUsuario()
     //se for um array/lista a consulta funcionou
     
     try {
@@ -34,14 +34,14 @@ export const buscarUsuarios =  createAsyncThunk('buscarUsuarios', async() =>{
         }
     }
         
-});
+})
 export const inserirUsuarioReducer = createAsyncThunk('gravarUsuario', async(usuario)=>{
     //dar previsibilidade ao conteúdo do payload
         //lista de produtos
-        console.log(usuario);
-        const resultado = await gravarUsuario(usuario);
+        console.log(usuario)
+        const resultado = await gravarUsuario(usuario)
         //se for um array/lista a consulta funcionou
-        console.log(resultado);
+        console.log(resultado)
         try {
                 return {
                     "status":resultado.status,
@@ -60,10 +60,10 @@ export const inserirUsuarioReducer = createAsyncThunk('gravarUsuario', async(usu
 export const editarUsuarioReducer = createAsyncThunk('alterarUsuario', async(usuario)=>{
     //dar previsibilidade ao conteúdo do payload
         //lista de produtos
-        console.log(usuario);
-        const resultado = await alterarUsuario(usuario);
+        console.log(usuario)
+        const resultado = await alterarUsuario(usuario)
         //se for um array/lista a consulta funcionou
-        console.log(resultado);
+        console.log(resultado)
         try {
                 return {
                     "status":resultado.status,
@@ -82,10 +82,10 @@ export const editarUsuarioReducer = createAsyncThunk('alterarUsuario', async(usu
 export const apagarUsuarioReducer = createAsyncThunk('excluirUsuario', async (usuario)=>{
     //dar previsibilidade ao conteúdo do payload
         //lista de produtos
-        console.log(usuario);
-        const resultado = await excluirUsuario(usuario);
+        console.log(usuario)
+        const resultado = await excluirUsuario(usuario)
         //se for um array/lista a consulta funcionou
-        console.log(resultado);
+        console.log(resultado)
         try {
                 return {
                     "status":resultado.status,
@@ -99,7 +99,7 @@ export const apagarUsuarioReducer = createAsyncThunk('excluirUsuario', async (us
                 "mensagem":"Erro: " + erro.message,
             }
         } 
-});
+})
 
 const usuarioReducer = createSlice({
     name:'usuario',
@@ -116,91 +116,91 @@ const usuarioReducer = createSlice({
         })
         .addCase(buscarUsuarios.fulfilled, (state, action) =>{
           if (action.payload.status){
-            state.estado=ESTADO.OCIOSO;
-            state.mensagem=action.payload.mensagem;
-            state.listaDeUsuarios=action.payload.listaDeUsuarios;
+            state.estado=ESTADO.OCIOSO
+            state.mensagem=action.payload.mensagem
+            state.listaDeUsuarios=action.payload.listaDeUsuarios
           } 
           else{
-            state.estado=ESTADO.ERRO;
-            state.mensagem = action.payload.mensagem;
-            state.listaDeUsuarios=action.payload.listaDeUsuarios;
+            state.estado=ESTADO.ERRO
+            state.mensagem = action.payload.mensagem
+            state.listaDeUsuarios=action.payload.listaDeUsuarios
           } 
         })
         .addCase(buscarUsuarios.rejected, (state, action) =>{
-            state.estado=ESTADO.ERRO;
-            state.mensagem = action.payload.mensagem;
-            state.listaDeUsuarios=action.payload.listaDeUsuarios;
+            state.estado=ESTADO.ERRO
+            state.mensagem = action.payload.mensagem
+            state.listaDeUsuarios=action.payload.listaDeUsuarios
         })
         .addCase(apagarUsuarioReducer.pending, (state,action) =>{
-            state.estado=ESTADO.PENDENTE;
-            state.mensagem= "Processando requisição (Excluindo usuario)";
+            state.estado=ESTADO.PENDENTE
+            state.mensagem= "Processando requisição (Excluindo usuario)"
         })
         .addCase(apagarUsuarioReducer.fulfilled,(state,action) =>{
             if (action.payload.status){
-                state.estado=ESTADO.OCIOSO;
-                state.mensagem=action.payload.mensagem;
+                state.estado=ESTADO.OCIOSO
+                state.mensagem=action.payload.mensagem
                 if (action.payload.usuario){
                     state.listaDeUsuarios = state.listaDeUsuarios.filter((usuario)=>
                         usuario.codigo !== action.payload.usuario.codigo
-                    );
+                    )
                 }
                 
             }
             else{
-                state.estado = ESTADO.ERRO;
-                state.mensagem = action.payload.mensagem;
+                state.estado = ESTADO.ERRO
+                state.mensagem = action.payload.mensagem
             }
             
             //altera a lista de produtos?
         })
         .addCase(apagarUsuarioReducer.rejected,(state,action)=>{
-            state.estado=ESTADO.ERRO;
-            state.mensagem=""//action.payload.mensagem;
+            state.estado=ESTADO.ERRO
+            state.mensagem=""//action.payload.mensagem
         })
         .addCase(editarUsuarioReducer.pending, (state, action) =>{
-            state.estado=ESTADO.PENDENTE;
-            state.mensagem="Processando requisição (Atualizando usuario)";
+            state.estado=ESTADO.PENDENTE
+            state.mensagem="Processando requisição (Atualizando usuario)"
         })
         .addCase(editarUsuarioReducer.fulfilled,(state,action) =>{
             if(action.payload.status){
-                state.estado = ESTADO.OCIOSO;
-                state.mensagem = action.payload.mensagem;
+                state.estado = ESTADO.OCIOSO
+                state.mensagem = action.payload.mensagem
                 if (action.payload.usuario){
-                    const i = state.listaDeUsuarios.findIndex((usuario) => usuario.codigo === action.payload.usuario.codigo);
-                    state.listaDeUsuarios[i] = action.payload.usuario;
+                    const i = state.listaDeUsuarios.findIndex((usuario) => usuario.codigo === action.payload.usuario.codigo)
+                    state.listaDeUsuarios[i] = action.payload.usuario
                 }
                 
             }
             else{
-                state.estado = ESTADO.ERRO;
-                state.mensagem = action.payload.mensagem;
+                state.estado = ESTADO.ERRO
+                state.mensagem = action.payload.mensagem
             }
            
         })
         .addCase(editarUsuarioReducer.rejected,(state,action)=>{
-            state.estado=ESTADO.ERRO;
-            state.mensagem= action.payload.mensagem;
+            state.estado=ESTADO.ERRO
+            state.mensagem= action.payload.mensagem
         })
         .addCase(inserirUsuarioReducer.pending, (state, action) => {
-            state.estado = ESTADO.PENDENTE;
+            state.estado = ESTADO.PENDENTE
             state.mensagem = "Processando requisição (Cadastrando usuario)"
         })
         .addCase(inserirUsuarioReducer.fulfilled, (state,action)=>{
             if(action.payload.status){
-                state.estado = ESTADO.OCIOSO;
-                state.mensagem = action.payload.mensagem;
+                state.estado = ESTADO.OCIOSO
+                state.mensagem = action.payload.mensagem
                 if (action.payload.usuario)
                 {
-                    state.listaDeUsuarios.push(action.payload.usuario);
+                    state.listaDeUsuarios.push(action.payload.usuario)
                 }
                 else
                 {
-                    state.estado = ESTADO.ERRO;
-                    state.mensagem = action.payload.mensagem;
+                    state.estado = ESTADO.ERRO
+                    state.mensagem = action.payload.mensagem
                 }
             }
         })
     }   
-});
+})
 
-export default usuarioReducer.reducer;
+export default usuarioReducer.reducer
