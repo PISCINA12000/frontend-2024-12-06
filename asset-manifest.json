@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/frontend-2024-12-06/static/css/main.d221dc40.css",
+    "main.js": "/frontend-2024-12-06/static/js/main.776d9503.js",
+    "static/media/pagina404.png": "/frontend-2024-12-06/static/media/pagina404.4bf0805d8d55a31c5142.png",
+    "index.html": "/frontend-2024-12-06/index.html",
+    "main.d221dc40.css.map": "/frontend-2024-12-06/static/css/main.d221dc40.css.map",
+    "main.776d9503.js.map": "/frontend-2024-12-06/static/js/main.776d9503.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d221dc40.css",
+    "static/js/main.776d9503.js"
+  ]
+}
